@@ -48,9 +48,9 @@ class leafarea(HydroModule):
         # kdf= extinction coefficient for diffuse visible light [-], varies between
         # 0.4 and 1.1
 
-        # LAINr=[1,32,60,91,121,152,182,213,244,274,305,335,370]
-        LAINr = [1, 11, 21, 32, 42, 52, 60, 70, 80, 91, 101, 111, 121, 131, 141, 152, 162, 172, 182,
-                 192, 202, 213, 223, 233, 244, 254, 264, 274, 284, 294, 305, 315, 325, 335, 345, 355, 370]
+        LAINr=[1,32,60,91,121,152,182,213,244,274,305,335,370]
+        #LAINr = [1, 11, 21, 32, 42, 52, 60, 70, 80, 91, 101, 111, 121, 131, 141, 152, 162, 172, 182,
+        #         192, 202, 213, 223, 233, 244, 254, 264, 274, 284, 294, 305, 315, 325, 335, 345, 355, 370]
 
         self.var.LAIX = [[0 for x in range(36)] for x in range(3)]
         self.var.LAI = [0, 0]
@@ -65,7 +65,7 @@ class leafarea(HydroModule):
             # print i,self.L1[i],LAINr1[self.L1[i]]
         settings = LisSettings.instance()
         binding = settings.binding
-        for i in range(36):
+        for i in range(12):
             LAIName = generateName(binding['LAIOtherMaps'], LAINr[i])
             self.var.LAIX[0][i] = loadLAI(binding['LAIOtherMaps'], LAIName, i)
 

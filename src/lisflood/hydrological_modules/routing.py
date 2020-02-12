@@ -162,6 +162,7 @@ class routing(HydroModule):
         self.var.downstruct = (compressArray(downstream(self.var.LddKinematic, inAr))).astype("int32")
         # each upstream pixel gets the id of the downstream pixel
         self.var.downstruct[lddC == 5] = maskinfo.info.mapC[0]
+        self.var.downstruct[self.var.downstruct<0] = maskinfo.info.mapC[0]
         # all pits gets a high number
         # upstream function in numpy
 
