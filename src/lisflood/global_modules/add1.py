@@ -117,7 +117,7 @@ def mapattrNetCDF(name):
     maskattrs = MaskAttrs.instance()
     cell_x = maskattrs['cell'] - np.round(np.abs(x2 - x1), 5)
     cell_y = maskattrs['cell'] - np.round(np.abs(y2 - y1), 5)
-    if abs(cell_x) >10**-5 or abs(cell_y) >10**-5:
+    if abs(cell_x) >10**-4 or abs(cell_y) >10**-4:
     #if maskattrs['cell'] != np.round(np.abs(x2 - x1), 5) or maskattrs['cell'] != np.round(np.abs(y2 - y1), 5):
         raise LisfloodError("Cell size different in maskmap {} and {}".format(
             LisSettings.instance().binding['MaskMap'], filename)
@@ -134,7 +134,7 @@ def mapattrNetCDF(name):
 
 def loadsetclone(name):
     """ Load 'MaskMap' and set as clone
-        
+
     :param name: name of the key in Settings.xml containing path and name of mask map as string
     :return: map: mask map (False=include in modelling; True=exclude from modelling) as pcraster
     """
@@ -268,22 +268,22 @@ def makenumpy(map):
 
 def loadmap(name, pcr=False, lddflag=False, timestampflag='exact', averageyearflag=False):
     """ Load a static map either value or pcraster map or netcdf (single or stack)
-    
+
     Load a static map either value or pcraster map or netcdf (single or stack)
     If a netCDF stack is loaded, map is read according to timestepInit date (i.e. model time step). If timestepInit is a
     step number, step number is converted to date (referred to CalendarDayStart in settings.xml). Then date is used to
     read time step from netCDF file.
     if timestampflag = 'closest' and loadmap is reading a NetCDF stack, the timestep with the closest timestamp will be
     loaded if the exact one is not available.
-    
+
     :param name: name of key in Settings.xml input file containing path and name of the map file (as string)
-    :param pcr: flag for output maps in pcraster format 
+    :param pcr: flag for output maps in pcraster format
     :param lddflag: flag for local drain direction map (CM??)
     :param timestampflag: look for exact time stamp in netcdf file ('exact') or for the closest (left) time stamp available ('closest')
     :param averageyearflag: if True, use "average year" netcdf file over the entire model simulation period
     :return: map or mapC
     :except: pcr: maps must have the same size of clone.map
-             netCDF: time step timestepInit must be included into the stack 
+             netCDF: time step timestepInit must be included into the stack
     """
     # name of the key in Settimgs.xml file containing path and name of the map file
     settings = LisSettings.instance()
@@ -454,11 +454,11 @@ def loadmap(name, pcr=False, lddflag=False, timestampflag='exact', averageyearfl
 
 def takeClosest(myList, myNumber):
     """ Returns the closest left value to myNumber in myList
-    
+
     Assumes myList is sorted. Returns closest left value to myNumber.
     If myList is sorted in raising order, it returns the closest smallest value.
     https://stackoverflow.com/questions/12141150/from-list-of-integers-get-number-closest-to-a-given-value
-    
+
     :param myList: list of ordered values
     :param myNumber: number to be searche in myList
     :return: closest left number to myNumber in myList
@@ -675,14 +675,14 @@ def readnetcdfsparse(name, time, oldmap):
 
 def checknetcdf(name, start, end):
     """ Check available time steps in netCDF input file
-    
+
     Check available timesteps in netCDF file. Get first and last available timestep in netCDF file and compare with
     first and last computation timestep of the model.
     It can use sub-daily steps.
-    
+
     :param name: string containing path and name of netCDF file
     :param start: initial date or step number of model simulation
-    :param end: final date or step of model simulation  
+    :param end: final date or step of model simulation
     :return: none
     :raises Exception: stop if netCDF maps do not cover simulation time period
     """
@@ -784,7 +784,7 @@ def writenet(flag, inputmap, netfile, DtDay,
     :param: repstepstart: first reporting step
     :param: repstepend: final reporting step
     :param frequency:[None,'all','monthly','annual'] save to netCDF stack; None save to netCDF single
-    :return: 
+    :return:
     """
     # prefix = netfile.split('/')[-1].split('\\')[-1].split('.')[0]
     settings = LisSettings.instance()
@@ -1003,7 +1003,7 @@ def perturbState(var, method = "normal", minVal=0, maxVal=1, mu=0, sigma=1, spat
 def read_tss_header(tssfilename):
     """ Read header of a tss file (used in inflow)
         :param tssfilename  path and name of the tss
-        :returns outlets_id  list of column names in tss file 
+        :returns outlets_id  list of column names in tss file
     """
     with open(tssfilename) as fp:
         rec = fp.readline()
