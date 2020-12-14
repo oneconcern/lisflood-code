@@ -69,6 +69,8 @@ class evapowater(HydroModule):
             self.var.maxNoEva = int(loadmap('maxNoEva'))
             # all pits gets a high number
             # still to test if this works
+            self.var.downEva[self.var.downEva < 0] = maskinfo.info.mapC[0]
+            # This is to avoid downEva being negative
 
             # ldd only inside lakes for calculating evaporation
 
